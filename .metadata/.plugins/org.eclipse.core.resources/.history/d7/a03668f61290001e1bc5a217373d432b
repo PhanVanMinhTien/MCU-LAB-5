@@ -1,0 +1,22 @@
+/*
+ * scheduler.h
+ *
+ *  Created on: Dec 1, 2023
+ *      Author: mitph
+ */
+
+#ifndef INC_SCHEDULER_H_
+#define INC_SCHEDULER_H_
+
+#include <stdint.h>
+
+typedef struct {
+	void (*pTask)(void);		// con trỏ hàm gọi đến Task trong khi tiến hành trừ Delay và Period
+	uint32_t 	Delay;
+	uint32_t 	Period;
+	uint32_t 	RunMe;
+
+	uint32_t  	TaskID;			// Hiện thực tác vụ thêm
+}sTasks;
+
+#endif /* INC_SCHEDULER_H_ */
