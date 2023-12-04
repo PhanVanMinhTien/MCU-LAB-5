@@ -1,12 +1,15 @@
-18:01:14 **** Incremental Build of configuration Debug for project LAB5_Ex1 ****
+18:23:07 **** Incremental Build of configuration Debug for project LAB5_Ex1 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
 arm-none-eabi-gcc "../Core/Src/scheduler.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/scheduler.d" -MT"Core/Src/scheduler.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/scheduler.o"
+../Core/Src/scheduler.c: In function 'SCH_Add_Task':
+../Core/Src/scheduler.c:32:6: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
+   32 |  if (index = SCH_MAX_TASKS) {
+      |      ^~~~~
 ../Core/Src/scheduler.c: In function 'timestamp':
-../Core/Src/scheduler.c:103:42: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
-  103 |  HAL_UART_Transmit(&huart2, (void*) str, sprintf(str, "TaskID: %d", index), 1000);
+../Core/Src/scheduler.c:98:42: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+   98 |  HAL_UART_Transmit(&huart2, (void*) str, sprintf(str, "TaskID: %d", index), 1000);
       |                                          ^~~~~~~
-../Core/Src/scheduler.c:103:42: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/scheduler.c:98:42: warning: incompatible implicit declaration of built-in function 'sprintf'
 ../Core/Src/scheduler.c:9:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
     8 | #include "scheduler.h"
   +++ |+#include <stdio.h>
@@ -19,7 +22,7 @@ arm-none-eabi-objdump -h -S  LAB5_Ex1.elf  > "LAB5_Ex1.list"
 arm-none-eabi-objcopy  -O ihex  LAB5_Ex1.elf  "LAB5_Ex1.hex"
 arm-none-eabi-objcopy  -O binary  LAB5_Ex1.elf  "LAB5_Ex1.bin"
    text	   data	    bss	    dec	    hex	filename
-  17592	    124	   2820	  20536	   5038	LAB5_Ex1.elf
+  17472	    124	   2820	  20416	   4fc0	LAB5_Ex1.elf
 Finished building: default.size.stdout
  
 Finished building: LAB5_Ex1.hex
@@ -29,5 +32,5 @@ Finished building: LAB5_Ex1.bin
 Finished building: LAB5_Ex1.list
  
 
-18:01:16 Build Finished. 0 errors, 2 warnings. (took 1s.952ms)
+18:23:08 Build Finished. 0 errors, 3 warnings. (took 1s.456ms)
 

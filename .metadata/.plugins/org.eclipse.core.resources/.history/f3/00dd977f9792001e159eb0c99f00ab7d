@@ -29,10 +29,10 @@ unsigned char SCH_Add_Task(void (*pFunction)(), uint32_t DELAY, uint32_t PERIOD)
 	while ((SCH_tasks_G[index].pTask != 0x0000) && (index < SCH_MAX_TASKS)) {
 		index++;
 	}
-	if (index = SCH_MAX_TASKS) {
+	if (index >= SCH_MAX_TASKS) {
 		return SCH_MAX_TASKS;
 	}
-
+	DELAY=(DELAY == 0)?0:DELAY-1;
 	SCH_tasks_G [index].pTask = pFunction;
 	SCH_tasks_G [index].Delay = DELAY ;
 	SCH_tasks_G [index].Period = PERIOD ;
@@ -46,6 +46,8 @@ void SCH_Update(void) {
 	for (index = 0; index < SCH_MAX_TASKS; index++) {
 		 if (SCH_tasks_G[index].pTask){
 			 if (SCH_tasks_G[index].Delay == 0) {
+
+//				timestamp(index);
 				 SCH_tasks_G[index].RunMe += 1;
 				 if (SCH_tasks_G[index].Period) {
 					 SCH_tasks_G[index].Delay = SCH_tasks_G[index].Period - 1;
@@ -60,6 +62,7 @@ void SCH_Update(void) {
 
 void SCH_Dispatch_Tasks(void) {
 	unsigned char index;
+//	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 	for (index=0; index < SCH_MAX_TASKS; index++) {
 		if (SCH_tasks_G[index].RunMe > 0) {
 			(*SCH_tasks_G[index].pTask)();
@@ -67,11 +70,13 @@ void SCH_Dispatch_Tasks(void) {
 			if (SCH_tasks_G[index].Period == 0 && SCH_tasks_G[index].RunMe == 0 && SCH_tasks_G[index].Delay == 0) {
 				SCH_Delete_Task(index);
 			}
+//			timestamp(index);
 		}
 
 	}
+//	SCH_Report_Status();
 	// Enter low-power mode (Sleep mode). The MCU will wake up on the next interrupt
-	HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+		    HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
 }
 
 unsigned char SCH_Delete_Task(uint32_t TASK_INDEX) {
