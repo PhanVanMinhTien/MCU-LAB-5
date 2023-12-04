@@ -7,14 +7,6 @@
 
 #include "scheduler.h"
 
-typedef struct {
-	void ( * pTask)(void);
-	uint32_t Delay;
-	uint32_t Period;
-	uint8_t RunMe;
-	uint32_t TaskID;
-} sTask;
-
 static sTask SCH_tasks_G[SCH_MAX_TASKS];
 static uint32_t newTaskID = 0;
 static uint32_t count_SCH_Update = 0;
@@ -39,7 +31,7 @@ void SCH_Update(void){
 		}
 	}
 }
-unsigned char SCH_Add_Task(void (* pFunction)(), uint32_t DELAY, uint32_t PERIOD){
+uint32_t SCH_Add_Task(void (* pFunction)(), uint32_t DELAY, uint32_t PERIOD){
 	uint8_t newTaskIndex = 0;
 	uint32_t sumDelay = 0;
 	uint32_t newDelay = 0;

@@ -1,8 +1,8 @@
 /*
  * scheduler.c
  *
- *  Created on: Dec 1, 2023
- *      Author: mitph
+ *  Created on: Nov 30, 2023
+ *      Author: Vostro
  */
 
 #include "scheduler.h"
@@ -39,7 +39,7 @@ void SCH_Update(void){
 		}
 	}
 }
-unsigned char SCH_Add_Task(void (* pFunction)(), uint32_t DELAY, uint32_t PERIOD){
+uint32_t SCH_Add_Task(void (* pFunction)(), uint32_t DELAY, uint32_t PERIOD){
 	uint8_t newTaskIndex = 0;
 	uint32_t sumDelay = 0;
 	uint32_t newDelay = 0;

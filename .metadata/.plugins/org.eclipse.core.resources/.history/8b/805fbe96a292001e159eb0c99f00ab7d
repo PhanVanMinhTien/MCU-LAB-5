@@ -22,7 +22,7 @@ typedef struct {
 
 
 #define SCH_MAX_TASKS	40
-#define	NO_TASK_ID		0
+
 void SCH_Init(void);
 
 unsigned char SCH_Add_Task (void (*pFunction)(),

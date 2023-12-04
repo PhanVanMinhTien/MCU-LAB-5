@@ -1,28 +1,40 @@
-18:23:07 **** Incremental Build of configuration Debug for project LAB5_Ex1 ****
+19:44:19 **** Incremental Build of configuration Debug for project LAB5_Ex1 ****
 make -j12 all 
+arm-none-eabi-gcc "../Core/Src/fsm.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/fsm.d" -MT"Core/Src/fsm.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/fsm.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
 arm-none-eabi-gcc "../Core/Src/scheduler.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/scheduler.d" -MT"Core/Src/scheduler.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/scheduler.o"
-../Core/Src/scheduler.c: In function 'SCH_Add_Task':
-../Core/Src/scheduler.c:32:6: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
-   32 |  if (index = SCH_MAX_TASKS) {
-      |      ^~~~~
-../Core/Src/scheduler.c: In function 'timestamp':
-../Core/Src/scheduler.c:98:42: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
-   98 |  HAL_UART_Transmit(&huart2, (void*) str, sprintf(str, "TaskID: %d", index), 1000);
-      |                                          ^~~~~~~
-../Core/Src/scheduler.c:98:42: warning: incompatible implicit declaration of built-in function 'sprintf'
-../Core/Src/scheduler.c:9:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-    8 | #include "scheduler.h"
-  +++ |+#include <stdio.h>
-    9 | 
+../Core/Src/scheduler.c:20:17: warning: 'count_SCH_Update' defined but not used [-Wunused-variable]
+   20 | static uint32_t count_SCH_Update = 0;
+      |                 ^~~~~~~~~~~~~~~~
+../Core/Src/fsm.c: In function 'uart_communication_fsm':
+../Core/Src/fsm.c:67:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   67 |    HAL_UART_Transmit(&huart2, "\r\n !ADC=", 10, 1000);
+      |                               ^~~~~~~~~~~~
+      |                               |
+      |                               char *
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:337,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:29,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Inc/fsm.h:11,
+                 from ../Core/Src/fsm.c:8:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:749:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  749 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/fsm.c:68:58: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+   68 |    HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "%d\n", ADC_value), 1000);
+      |                                                         ~^     ~~~~~~~~~
+      |                                                          |     |
+      |                                                          int   uint32_t {aka long unsigned int}
+      |                                                         %ld
 arm-none-eabi-gcc -o "LAB5_Ex1.elf" @"objects.list"   -mcpu=cortex-m3 -T"E:\MCU-LAB-5\LAB5_Ex1\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LAB5_Ex1.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: LAB5_Ex1.elf
  
 arm-none-eabi-size   LAB5_Ex1.elf 
 arm-none-eabi-objdump -h -S  LAB5_Ex1.elf  > "LAB5_Ex1.list"
 arm-none-eabi-objcopy  -O ihex  LAB5_Ex1.elf  "LAB5_Ex1.hex"
-arm-none-eabi-objcopy  -O binary  LAB5_Ex1.elf  "LAB5_Ex1.bin"
    text	   data	    bss	    dec	    hex	filename
-  17472	    124	   2820	  20416	   4fc0	LAB5_Ex1.elf
+  17964	    124	   2820	  20908	   51ac	LAB5_Ex1.elf
+arm-none-eabi-objcopy  -O binary  LAB5_Ex1.elf  "LAB5_Ex1.bin"
 Finished building: default.size.stdout
  
 Finished building: LAB5_Ex1.hex
@@ -32,5 +44,5 @@ Finished building: LAB5_Ex1.bin
 Finished building: LAB5_Ex1.list
  
 
-18:23:08 Build Finished. 0 errors, 3 warnings. (took 1s.456ms)
+19:44:20 Build Finished. 0 errors, 3 warnings. (took 1s.61ms)
 
