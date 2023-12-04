@@ -1,0 +1,104 @@
+/*
+ * fsm.h
+ *
+ *  Created on: Nov 2, 2023
+ *      Author: mitph
+ */
+
+#ifndef INC_FSM_H_
+#define INC_FSM_H_
+
+#include "main.h"
+#include "software_timer.h"
+
+#define IDLE	1
+#define RECEIVING 2
+#define SENDING 	3
+#define MAX_BUFFER_SIZE 30
+
+extern uint8_t temp;
+extern uint8_t buffer[MAX_BUFFER_SIZE];
+extern uint8_t index_buffer;
+extern uint8_t buffer_flag;
+extern uint32_t ADC_value;
+extern int command_flag;
+
+extern int command_flag;
+extern int state;
+
+void command_parser_fsm();
+void uart_communication_fsm();
+void clear_buffer();
+
+
+#endif /* INC_FSM_H_ */
+
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+  if (huart->Instance==USART2) {
+	  HAL_UART_Transmit (& huart2 , & temp , 1 , 50) ;
+	  buffer[index_buffer++] = temp;
+	  if (index_buffer == 30) index_buffer = 0;
+	  buffer_flag = 1;
+	  HAL_UART_Receive_IT(&huart2, &temp, 1);
+  }
+}
+/* USER CODE END 0 */
+
+void led0() {
+	HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
+}
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_TIM2_Init();
+  MX_GPIO_Init();
+  MX_USART2_UART_Init();
+  MX_ADC1_Init();
+  /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start_IT (& htim2 ) ;
+  HAL_UART_Receive_IT(&huart2, &temp, 1);
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  SCH_Init();
+
+  SCH_Add_Task(timerRun, 0, 1);
+  SCH_Add_Task(command_parser_fsm, 0, 1);
+  SCH_Add_Task(uart_communication_fsm, 0, 1);
+//  SCH_Add_Task(led0,0,100);
+ timer1_flag = 1;
+  while (1)
+  {
+    /* USER CODE END WHILE */
+	  SCH_Dispatch_Tasks();
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}

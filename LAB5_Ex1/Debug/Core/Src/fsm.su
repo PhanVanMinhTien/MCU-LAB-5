@@ -1,0 +1,3 @@
+fsm.c:24:6:clear_buffer	8	static
+fsm.c:29:6:command_parser_fsm	8	static
+fsm.c:63:6:uart_communication_fsm	8	static
